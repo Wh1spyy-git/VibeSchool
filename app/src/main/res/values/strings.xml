@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">VibeSchool</string>
+    <string name="common_loading_error">Не удалось загрузить данные</string>
+    <string name="navigation_today">Сегодня</string>
+    <string name="navigation_diary">Дневник</string>
+    <string name="navigation_calculator">Калькулятор</string>
+    <string name="navigation_today_symbol" translatable="false">◷</string>
+    <string name="navigation_diary_symbol" translatable="false">▤</string>
+    <string name="navigation_calculator_symbol" translatable="false">∑</string>
+    <string name="offline_cache_message">Показаны сохранённые данные. Обновление будет доступно после подключения к интернету.</string>
+    <string name="today_title">Расписание на сегодня</string>
+    <string name="today_class_quarter">%1$s • %2$s</string>
+    <string name="timer_next_lesson">До следующего урока</string>
+    <string name="timer_demo_value" translatable="false">12:08</string>
+    <string name="timer_demo_hint">Таймер включится после подключения расписания СГО</string>
+    <string name="lesson_time">%1$s–%2$s</string>
+    <string name="lesson_homework">Домашнее задание: %1$s</string>
+    <string name="lesson_room">каб. %1$s</string>
+    <string name="diary_title">Дневник</string>
+    <string name="diary_average">Средний: %1$.2f</string>
+    <string name="grade_weight">Вес: %1$d</string>
+    <string name="calculator_title">Калькулятор среднего балла</string>
+    <string name="calculator_no_subject">Нет предметов</string>
+    <string name="calculator_target_label">Желаемый средний балл</string>
+    <string name="calculator_target_hint">От 1,00 до 5,00</string>
+    <string name="calculator_impossible">Проверь желаемый балл: он должен быть от 1 до 5 и достижим пятёрками.</string>
+    <string name="calculator_already_reached">Этот средний балл уже достигнут.</string>
+    <string name="calculator_result">Нужно получить пятёрок с весом 1: %1$d</string>
+</resources>
