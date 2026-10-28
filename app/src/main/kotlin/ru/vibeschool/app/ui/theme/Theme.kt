@@ -1,65 +1,82 @@
-/*
- * Copyright 2026 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package ru.vibeschool.app.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import ru.vibeschool.app.ui.settings.AccentPalette
+import ru.vibeschool.app.ui.settings.AppSettings
+import ru.vibeschool.app.ui.settings.CornerStyle
+import ru.vibeschool.app.ui.settings.ThemeMode
 
-private val DarkColorScheme = darkColorScheme(
-    primary = primaryDark,
-    primaryContainer = primaryContainerDark,
-    secondary = secondaryDark,
-    tertiary = tertiaryDark
-)
+private data class Palette(val light: Color, val dark: Color, val container: Color)
 
-private val LightColorScheme = lightColorScheme(
-    primary = primaryLight,
-    primaryContainer = primaryContainerLight,
-    secondary = secondaryLight,
-    tertiary = tertiaryLight
-)
+private fun AccentPalette.colors() = when (this) {
+  AccentPalette.Ocean -> Palette(Color(0xFF00658A), Color(0xFF7BD0FA), Color(0xFFC4E7FF))
+  AccentPalette.Mint -> Palette(Color(0xFF006B58), Color(0xFF5DDBB8), Color(0xFF7BF8D3))
+  AccentPalette.Violet -> Palette(Color(0xFF6750A4), Color(0xFFCFBCFF), Color(0xFFE9DDFF))
+  AccentPalette.Sunset -> Palette(Color(0xFF9C4230), Color(0xFFFFB4A3), Color(0xFFFFDAD2))
+}
 
 @Composable
 fun VibeSchoolTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false,
-    content: @Composable () -> Unit
+  settings: AppSettings = AppSettings(),
+  content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+  val darkTheme = when (settings.themeMode) {
+    ThemeMode.System -> isSystemInDarkTheme()
+    ThemeMode.Light -> false
+    ThemeMode.Dark -> true
+  }
+  val context = LocalContext.current
+  val accent = settings.accentPalette.colors()
+  val colorScheme = when {
+    settings.dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && darkTheme -> dynamicDarkColorScheme(context)
+    settings.dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> dynamicLightColorScheme(context)
+    darkTheme -> darkColorScheme(
+      primary = accent.dark,
+      onPrimary = Color(0xFF003548),
+      primaryContainer = accent.light,
+      onPrimaryContainer = Color(0xFF001F2A),
+      surface = Color(0xFF101417),
+      surfaceContainer = Color(0xFF1B2024),
+      surfaceContainerHigh = Color(0xFF252A2E),
     )
+    else -> lightColorScheme(
+      primary = accent.light,
+      onPrimary = Color.White,
+      primaryContainer = accent.container,
+      onPrimaryContainer = Color(0xFF001F2A),
+      surface = Color(0xFFF7F9FC),
+      surfaceContainer = Color(0xFFEDF1F5),
+      surfaceContainerHigh = Color(0xFFE6EBEF),
+    )
+  }
+  val corner = when (settings.cornerStyle) {
+    CornerStyle.Compact -> 8.dp
+    CornerStyle.Balanced -> 16.dp
+    CornerStyle.Rounded -> 28.dp
+  }
+  MaterialTheme(
+    colorScheme = colorScheme,
+    typography = Typography,
+    shapes = Shapes(
+      extraSmall = RoundedCornerShape(corner / 2),
+      small = RoundedCornerShape(corner),
+      medium = RoundedCornerShape(corner),
+      large = RoundedCornerShape(corner + 4.dp),
+      extraLarge = RoundedCornerShape(corner + 8.dp),
+    ),
+    content = content,
+  )
 }
 

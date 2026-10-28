@@ -4,11 +4,10 @@
     <string name="navigation_today">Сегодня</string>
     <string name="navigation_diary">Дневник</string>
     <string name="navigation_calculator">Калькулятор</string>
-    <string name="navigation_today_symbol" translatable="false">◷</string>
-    <string name="navigation_diary_symbol" translatable="false">▤</string>
-    <string name="navigation_calculator_symbol" translatable="false">∑</string>
+    <string name="navigation_settings">Настройки</string>
     <string name="offline_cache_message">Показаны сохранённые данные. Обновление будет доступно после подключения к интернету.</string>
     <string name="today_title">Расписание на сегодня</string>
+    <string name="today_title_short">Сегодня</string>
     <string name="today_class_quarter">%1$s • %2$s</string>
     <string name="timer_next_lesson">До следующего урока</string>
     <string name="timer_demo_value" translatable="false">12:08</string>
@@ -20,10 +19,44 @@
     <string name="diary_average">Средний: %1$.2f</string>
     <string name="grade_weight">Вес: %1$d</string>
     <string name="calculator_title">Калькулятор среднего балла</string>
+    <string name="calculator_title_short">Калькулятор</string>
+    <string name="calculator_subject_label">Предмет</string>
     <string name="calculator_no_subject">Нет предметов</string>
     <string name="calculator_target_label">Желаемый средний балл</string>
     <string name="calculator_target_hint">От 1,00 до 5,00</string>
     <string name="calculator_impossible">Проверь желаемый балл: он должен быть от 1 до 5 и достижим пятёрками.</string>
     <string name="calculator_already_reached">Этот средний балл уже достигнут.</string>
     <string name="calculator_result">Нужно получить пятёрок с весом 1: %1$d</string>
+    <string name="demo_title">Сейчас показаны демонстрационные данные</string>
+    <string name="demo_description">Эти оценки и уроки придуманы для макета и не загружены из СГО.</string>
+    <string name="auth_login_button">Войти через Госуслуги</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_subtitle">Сделайте VibeSchool удобным именно для себя</string>
+    <string name="settings_account_title">Сетевой город</string>
+    <string name="settings_account_demo">Демо-режим • реальные данные пока не подключены</string>
+    <string name="settings_theme_title">Режим оформления</string>
+    <string name="settings_theme_subtitle">Системный, светлый или тёмный</string>
+    <string name="settings_theme_system">Как в системе</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_palette_title">Цветовой акцент</string>
+    <string name="settings_palette_subtitle">Выберите настроение интерфейса</string>
+    <string name="settings_palette_ocean">Океан</string>
+    <string name="settings_palette_mint">Мята</string>
+    <string name="settings_palette_violet">Фиолетовый</string>
+    <string name="settings_palette_sunset">Закат</string>
+    <string name="settings_dynamic_color">Цвета обоев Android</string>
+    <string name="settings_shape_title">Форма карточек</string>
+    <string name="settings_shape_subtitle">От строгой геометрии до мягких форм</string>
+    <string name="settings_shape_compact">Строго</string>
+    <string name="settings_shape_balanced">Баланс</string>
+    <string name="settings_shape_rounded">Мягко</string>
+    <string name="settings_layout_title">Расписание и дневник</string>
+    <string name="settings_layout_subtitle">Управляйте плотностью и деталями</string>
+    <string name="settings_compact">Компактные карточки</string>
+    <string name="settings_show_rooms">Показывать кабинеты</string>
+    <string name="settings_show_homework">Показывать домашние задания</string>
+    <string name="settings_motion_title">Анимации</string>
+    <string name="settings_motion_subtitle">Плавные переходы между разделами</string>
+    <string name="settings_animations">Использовать анимации</string>
 </resources>

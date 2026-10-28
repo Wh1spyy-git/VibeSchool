@@ -9,9 +9,10 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import ru.vibeschool.app.ui.main.MainScreen
+import ru.vibeschool.app.ui.settings.SettingsRepository
 
 @Composable
-fun MainNavigation() {
+fun MainNavigation(settingsRepository: SettingsRepository) {
   val backStack = rememberNavBackStack(Main)
 
   NavDisplay(
@@ -20,7 +21,7 @@ fun MainNavigation() {
     entryProvider =
       entryProvider {
         entry<Main> {
-          MainScreen()
+          MainScreen(settingsRepository = settingsRepository)
         }
       },
   )

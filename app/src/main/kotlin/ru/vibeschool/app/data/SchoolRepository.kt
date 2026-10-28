@@ -34,6 +34,7 @@ data class SchoolSnapshot(
   val lessons: List<Lesson>,
   val subjects: List<SubjectGrades>,
   val isOffline: Boolean,
+  val isDemoData: Boolean,
 )
 
 interface SchoolRepository {
@@ -75,4 +76,5 @@ fun demoSchoolSnapshot(): SchoolSnapshot =
         ),
       ),
       isOffline = false,
+      isDemoData = true,
     )

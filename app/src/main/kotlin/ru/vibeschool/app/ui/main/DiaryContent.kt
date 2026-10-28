@@ -27,6 +27,7 @@ import ru.vibeschool.app.ui.theme.Spacing
 fun DiaryContent(
   snapshot: SchoolSnapshot,
   averagesBySubjectId: Map<String, Double>,
+  compactLayout: Boolean,
   modifier: Modifier = Modifier,
 ) {
   LazyColumn(
@@ -50,6 +51,8 @@ fun DiaryContent(
       SubjectGradeCard(
         subject = subject,
         average = averagesBySubjectId[subject.id] ?: 0.0,
+        compactLayout = compactLayout,
+        modifier = Modifier.animateItem(),
       )
     }
   }
@@ -59,12 +62,13 @@ fun DiaryContent(
 private fun SubjectGradeCard(
   subject: SubjectGrades,
   average: Double,
+  compactLayout: Boolean,
   modifier: Modifier = Modifier,
 ) {
   Card(modifier = modifier.fillMaxWidth()) {
     Column(
-      modifier = Modifier.padding(Spacing.medium),
-      verticalArrangement = Arrangement.spacedBy(Spacing.medium),
+      modifier = Modifier.padding(if (compactLayout) Spacing.mediumSmall else Spacing.medium),
+      verticalArrangement = Arrangement.spacedBy(if (compactLayout) Spacing.small else Spacing.medium),
     ) {
       Row(
         modifier = Modifier.fillMaxWidth(),
