@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">VibeSchool</string>
     <string name="common_loading_error">Не удалось загрузить данные</string>
+    <string name="common_back">Назад</string>
     <string name="navigation_today">Сегодня</string>
     <string name="navigation_diary">Дневник</string>
     <string name="navigation_calculator">Калькулятор</string>
@@ -30,10 +31,17 @@
     <string name="demo_title">Сейчас показаны демонстрационные данные</string>
     <string name="demo_description">Эти оценки и уроки придуманы для макета и не загружены из СГО.</string>
     <string name="auth_login_button">Войти через Госуслуги</string>
+    <string name="auth_login_again">Войти заново</string>
+    <string name="auth_title">Безопасный вход в СГО</string>
+    <string name="auth_blocked_address">Переход заблокирован: адрес не относится к СГО или Госуслугам.</string>
+    <string name="auth_session_missing">Дневник открылся, но СГО не передал сессию. Попробуйте войти ещё раз.</string>
+    <string name="auth_connected_title">Вход в СГО выполнен</string>
+    <string name="auth_connected_demo_description">Сессия сохранена в зашифрованном виде. Импорт расписания и оценок пока не подключён, поэтому ниже остаются демонстрационные данные.</string>
     <string name="settings_title">Настройки</string>
     <string name="settings_subtitle">Сделайте VibeSchool удобным именно для себя</string>
     <string name="settings_account_title">Сетевой город</string>
     <string name="settings_account_demo">Демо-режим • реальные данные пока не подключены</string>
+    <string name="settings_account_connected">Сессия СГО сохранена • ожидается подключение импорта данных</string>
     <string name="settings_theme_title">Режим оформления</string>
     <string name="settings_theme_subtitle">Системный, светлый или тёмный</string>
     <string name="settings_theme_system">Как в системе</string>

@@ -1,6 +1,5 @@
 package ru.vibeschool.app.ui.main
 
-import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -32,6 +31,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -40,16 +42,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.core.net.toUri
 import ru.vibeschool.app.R
+import ru.vibeschool.app.auth.SgoAuthScreen
+import ru.vibeschool.app.auth.SgoSessionStore
 import ru.vibeschool.app.data.DemoSchoolRepository
 import ru.vibeschool.app.data.demoSchoolSnapshot
 import ru.vibeschool.app.ui.settings.AppSettings
 import ru.vibeschool.app.ui.settings.SettingsContent
 import ru.vibeschool.app.ui.settings.SettingsRepository
 import ru.vibeschool.app.ui.theme.VibeSchoolTheme
-
-private const val SGO_URL = "https://netschool.edu22.info/"
 
 @Composable
 fun MainScreen(
@@ -60,20 +61,34 @@ fun MainScreen(
   val repository = remember(settingsRepository, context) {
     settingsRepository ?: SettingsRepository(context.applicationContext)
   }
+  val sessionStore = remember(context) { SgoSessionStore(context.applicationContext) }
+  val hasSgoSession by sessionStore.hasSession.collectAsStateWithLifecycle()
+  var showAuth by rememberSaveable { mutableStateOf(false) }
   val viewModel: MainScreenViewModel = viewModel {
     MainScreenViewModel(DemoSchoolRepository(), repository)
   }
   val state by viewModel.uiState.collectAsStateWithLifecycle()
-  val openSgo = remember(context) {
-    { context.startActivity(Intent(Intent.ACTION_VIEW, SGO_URL.toUri())) }
+  if (showAuth) {
+    val initialCookie = remember(showAuth) { sessionStore.readCookie() }
+    SgoAuthScreen(
+      initialCookie = initialCookie,
+      onSessionCaptured = { cookie ->
+        sessionStore.saveCookie(cookie)
+        showAuth = false
+      },
+      onBack = { showAuth = false },
+      modifier = modifier,
+    )
+    return
   }
   MainScreen(
     state = state,
+    hasSgoSession = hasSgoSession,
     onSectionSelected = viewModel::selectSection,
     onCalculatorTargetChanged = viewModel::updateCalculatorTarget,
     onCalculatorSubjectSelected = viewModel::selectCalculatorSubject,
     onSettingsChanged = viewModel::updateSettings,
-    onConnectSgo = openSgo,
+    onConnectSgo = { showAuth = true },
     modifier = modifier,
   )
 }
@@ -82,6 +97,7 @@ fun MainScreen(
 @Composable
 internal fun MainScreen(
   state: MainScreenState,
+  hasSgoSession: Boolean,
   onSectionSelected: (MainSection) -> Unit,
   onCalculatorTargetChanged: (String) -> Unit,
   onCalculatorSubjectSelected: (String) -> Unit,
@@ -99,6 +115,7 @@ internal fun MainScreen(
             Icon(
               Icons.Outlined.AccountCircle,
               contentDescription = stringResource(R.string.auth_login_button),
+              tint = if (hasSgoSession) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
             )
           }
         },
@@ -152,6 +169,7 @@ internal fun MainScreen(
               MainSection.Today -> TodayContent(
                 snapshot = state.snapshot,
                 settings = state.settings,
+                hasSgoSession = hasSgoSession,
                 onConnectSgo = onConnectSgo,
               )
               MainSection.Diary -> DiaryContent(
@@ -169,6 +187,7 @@ internal fun MainScreen(
               )
               MainSection.Settings -> SettingsContent(
                 settings = state.settings,
+                hasSgoSession = hasSgoSession,
                 onSettingsChanged = onSettingsChanged,
                 onConnectSgo = onConnectSgo,
               )
@@ -210,6 +229,7 @@ private fun MainScreenPreview() {
   VibeSchoolTheme {
     MainScreen(
       state = MainScreenState(snapshot = demoSchoolSnapshot(), isLoading = false),
+      hasSgoSession = false,
       onSectionSelected = {},
       onCalculatorTargetChanged = {},
       onCalculatorSubjectSelected = {},
@@ -230,6 +250,7 @@ private fun CalculatorScreenPreview() {
         calculatorSubjectId = "russian",
         isLoading = false,
       ),
+      hasSgoSession = false,
       onSectionSelected = {},
       onCalculatorTargetChanged = {},
       onCalculatorSubjectSelected = {},
@@ -251,6 +272,7 @@ private fun SettingsScreenPreview() {
         settings = settings,
         isLoading = false,
       ),
+      hasSgoSession = true,
       onSectionSelected = {},
       onCalculatorTargetChanged = {},
       onCalculatorSubjectSelected = {},

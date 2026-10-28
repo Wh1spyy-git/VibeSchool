@@ -35,6 +35,7 @@ import ru.vibeschool.app.ui.theme.Spacing
 @Composable
 fun SettingsContent(
   settings: AppSettings,
+  hasSgoSession: Boolean,
   onSettingsChanged: (AppSettings) -> Unit,
   onConnectSgo: () -> Unit,
   modifier: Modifier = Modifier,
@@ -57,10 +58,14 @@ fun SettingsContent(
       SettingsCard(
         icon = Icons.Outlined.AccountCircle,
         title = stringResource(R.string.settings_account_title),
-        subtitle = stringResource(R.string.settings_account_demo),
+        subtitle = stringResource(
+          if (hasSgoSession) R.string.settings_account_connected else R.string.settings_account_demo,
+        ),
       ) {
         Button(onClick = onConnectSgo, modifier = Modifier.fillMaxWidth()) {
-          Text(stringResource(R.string.auth_login_button))
+          Text(
+            stringResource(if (hasSgoSession) R.string.auth_login_again else R.string.auth_login_button),
+          )
         }
       }
     }

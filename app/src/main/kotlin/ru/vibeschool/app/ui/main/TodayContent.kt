@@ -29,6 +29,7 @@ import ru.vibeschool.app.ui.settings.AppSettings
 fun TodayContent(
   snapshot: SchoolSnapshot,
   settings: AppSettings,
+  hasSgoSession: Boolean,
   onConnectSgo: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
@@ -51,7 +52,9 @@ fun TodayContent(
       }
     }
     if (snapshot.isDemoData) {
-      item(key = "demo") { DemoDataCard(onConnectSgo = onConnectSgo) }
+      item(key = "demo") {
+        DemoDataCard(hasSgoSession = hasSgoSession, onConnectSgo = onConnectSgo)
+      }
     }
     item(key = "timer") { LessonTimerCard() }
     items(snapshot.lessons, key = Lesson::id) { lesson ->
@@ -67,7 +70,11 @@ fun TodayContent(
 }
 
 @Composable
-private fun DemoDataCard(onConnectSgo: () -> Unit, modifier: Modifier = Modifier) {
+private fun DemoDataCard(
+  hasSgoSession: Boolean,
+  onConnectSgo: () -> Unit,
+  modifier: Modifier = Modifier,
+) {
   Card(modifier = modifier.fillMaxWidth()) {
     Column(
       modifier = Modifier.padding(Spacing.medium),
@@ -81,16 +88,23 @@ private fun DemoDataCard(onConnectSgo: () -> Unit, modifier: Modifier = Modifier
           tint = MaterialTheme.colorScheme.primary,
         )
         Column(modifier = Modifier.weight(1f)) {
-          Text(stringResource(R.string.demo_title), style = MaterialTheme.typography.titleMedium)
           Text(
-            stringResource(R.string.demo_description),
+            stringResource(if (hasSgoSession) R.string.auth_connected_title else R.string.demo_title),
+            style = MaterialTheme.typography.titleMedium,
+          )
+          Text(
+            stringResource(
+              if (hasSgoSession) R.string.auth_connected_demo_description else R.string.demo_description,
+            ),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
           )
         }
       }
       Button(onClick = onConnectSgo, modifier = Modifier.fillMaxWidth()) {
-        Text(stringResource(R.string.auth_login_button))
+        Text(
+          stringResource(if (hasSgoSession) R.string.auth_login_again else R.string.auth_login_button),
+        )
       }
     }
   }
