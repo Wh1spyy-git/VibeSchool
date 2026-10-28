@@ -13,6 +13,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,9 +43,20 @@ fun DiaryContent(
           text = stringResource(R.string.diary_title),
           style = MaterialTheme.typography.headlineMedium,
         )
-        Text(
-          text = snapshot.quarterName,
-          color = MaterialTheme.colorScheme.onSurfaceVariant,
+        if (snapshot.quarterName.isNotBlank()) {
+          Text(
+            text = snapshot.quarterName,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+          )
+        }
+      }
+    }
+    if (snapshot.subjects.isEmpty()) {
+      item(key = "empty-diary") {
+        EmptyStateCard(
+          icon = Icons.AutoMirrored.Outlined.MenuBook,
+          title = stringResource(R.string.diary_empty_title),
+          description = stringResource(R.string.diary_empty_description),
         )
       }
     }

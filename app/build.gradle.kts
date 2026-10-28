@@ -11,8 +11,8 @@ android {
     applicationId = "ru.vibeschool.app"
     minSdk = 26
     targetSdk = 36
-    versionCode = 3
-    versionName = "1.2-auth-handoff"
+    versionCode = 4
+    versionName = "1.2.1-empty-states"
   }
 
   buildTypes {

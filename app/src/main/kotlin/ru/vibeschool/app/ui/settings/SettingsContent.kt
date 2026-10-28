@@ -59,7 +59,7 @@ fun SettingsContent(
         icon = Icons.Outlined.AccountCircle,
         title = stringResource(R.string.settings_account_title),
         subtitle = stringResource(
-          if (hasSgoSession) R.string.settings_account_connected else R.string.settings_account_demo,
+          if (hasSgoSession) R.string.settings_account_connected else R.string.settings_account_disconnected,
         ),
       ) {
         Button(onClick = onConnectSgo, modifier = Modifier.fillMaxWidth()) {

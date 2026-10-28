@@ -34,47 +34,22 @@ data class SchoolSnapshot(
   val lessons: List<Lesson>,
   val subjects: List<SubjectGrades>,
   val isOffline: Boolean,
-  val isDemoData: Boolean,
 )
 
 interface SchoolRepository {
   val snapshot: Flow<SchoolSnapshot>
 }
 
-class DemoSchoolRepository : SchoolRepository {
-  override val snapshot: Flow<SchoolSnapshot> = flowOf(demoSchoolSnapshot())
+class EmptySchoolRepository : SchoolRepository {
+  override val snapshot: Flow<SchoolSnapshot> = flowOf(emptySchoolSnapshot())
 }
 
-fun demoSchoolSnapshot(): SchoolSnapshot =
+fun emptySchoolSnapshot(): SchoolSnapshot =
   SchoolSnapshot(
-      studentName = "Ученик",
-      className = "10 класс",
-      quarterName = "1 четверть",
-      lessons = listOf(
-        Lesson("1", 1, "Алгебра", "08:00", "08:45", "214", "№ 128–132"),
-        Lesson("2", 2, "Русский язык", "08:55", "09:40", "305", "Упр. 74"),
-        Lesson("3", 3, "Физика", "10:00", "10:45", "117", null),
-        Lesson("4", 4, "История", "11:05", "11:50", "208", "Параграф 12"),
-      ),
-      subjects = listOf(
-        SubjectGrades(
-          "math",
-          "Алгебра",
-          listOf(
-            Grade("m1", 5, 1, "Ответ на уроке", "24 окт."),
-            Grade("m2", 4, 2, "Контрольная работа", "20 окт."),
-            Grade("m3", 5, 1, "Самостоятельная работа", "15 окт."),
-          ),
-        ),
-        SubjectGrades(
-          "russian",
-          "Русский язык",
-          listOf(
-            Grade("r1", 4, 1, "Домашняя работа", "23 окт."),
-            Grade("r2", 5, 2, "Диктант", "18 окт."),
-          ),
-        ),
-      ),
+      studentName = "",
+      className = "",
+      quarterName = "",
+      lessons = emptyList(),
+      subjects = emptyList(),
       isOffline = false,
-      isDemoData = true,
     )

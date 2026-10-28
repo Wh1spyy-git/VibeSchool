@@ -45,8 +45,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.vibeschool.app.R
 import ru.vibeschool.app.auth.SgoAuthScreen
 import ru.vibeschool.app.auth.SgoSessionStore
-import ru.vibeschool.app.data.DemoSchoolRepository
-import ru.vibeschool.app.data.demoSchoolSnapshot
+import ru.vibeschool.app.data.EmptySchoolRepository
+import ru.vibeschool.app.data.emptySchoolSnapshot
 import ru.vibeschool.app.ui.settings.AppSettings
 import ru.vibeschool.app.ui.settings.SettingsContent
 import ru.vibeschool.app.ui.settings.SettingsRepository
@@ -65,7 +65,7 @@ fun MainScreen(
   val hasSgoSession by sessionStore.hasSession.collectAsStateWithLifecycle()
   var showAuth by rememberSaveable { mutableStateOf(false) }
   val viewModel: MainScreenViewModel = viewModel {
-    MainScreenViewModel(DemoSchoolRepository(), repository)
+    MainScreenViewModel(EmptySchoolRepository(), repository)
   }
   val state by viewModel.uiState.collectAsStateWithLifecycle()
   if (showAuth) {
@@ -228,7 +228,7 @@ private val MainSection.icon: ImageVector
 private fun MainScreenPreview() {
   VibeSchoolTheme {
     MainScreen(
-      state = MainScreenState(snapshot = demoSchoolSnapshot(), isLoading = false),
+      state = MainScreenState(snapshot = emptySchoolSnapshot(), isLoading = false),
       hasSgoSession = false,
       onSectionSelected = {},
       onCalculatorTargetChanged = {},
@@ -245,9 +245,8 @@ private fun CalculatorScreenPreview() {
   VibeSchoolTheme {
     MainScreen(
       state = MainScreenState(
-        snapshot = demoSchoolSnapshot(),
+        snapshot = emptySchoolSnapshot(),
         selectedSection = MainSection.Calculator,
-        calculatorSubjectId = "russian",
         isLoading = false,
       ),
       hasSgoSession = false,
@@ -267,7 +266,7 @@ private fun SettingsScreenPreview() {
   VibeSchoolTheme(settings = settings) {
     MainScreen(
       state = MainScreenState(
-        snapshot = demoSchoolSnapshot(),
+        snapshot = emptySchoolSnapshot(),
         selectedSection = MainSection.Settings,
         settings = settings,
         isLoading = false,

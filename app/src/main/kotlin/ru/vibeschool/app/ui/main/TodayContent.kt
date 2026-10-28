@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.EventBusy
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -45,18 +46,31 @@ fun TodayContent(
           text = stringResource(R.string.today_title),
           style = MaterialTheme.typography.headlineMedium,
         )
-        Text(
-          text = stringResource(R.string.today_class_quarter, snapshot.className, snapshot.quarterName),
-          color = MaterialTheme.colorScheme.onSurfaceVariant,
+        if (snapshot.className.isNotBlank() || snapshot.quarterName.isNotBlank()) {
+          Text(
+            text = listOf(snapshot.className, snapshot.quarterName)
+              .filter(String::isNotBlank)
+              .joinToString(" • "),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+          )
+        }
+      }
+    }
+    item(key = "connection") {
+      ConnectionCard(hasSgoSession = hasSgoSession, onConnectSgo = onConnectSgo)
+    }
+    if (snapshot.lessons.isEmpty()) {
+      item(key = "empty-schedule") {
+        EmptyStateCard(
+          icon = Icons.Outlined.EventBusy,
+          title = stringResource(R.string.schedule_empty_title),
+          description = stringResource(
+            if (hasSgoSession) R.string.schedule_empty_connected_description
+            else R.string.schedule_empty_signed_out_description,
+          ),
         )
       }
     }
-    if (snapshot.isDemoData) {
-      item(key = "demo") {
-        DemoDataCard(hasSgoSession = hasSgoSession, onConnectSgo = onConnectSgo)
-      }
-    }
-    item(key = "timer") { LessonTimerCard() }
     items(snapshot.lessons, key = Lesson::id) { lesson ->
       LessonCard(
         lesson = lesson,
@@ -70,7 +84,7 @@ fun TodayContent(
 }
 
 @Composable
-private fun DemoDataCard(
+private fun ConnectionCard(
   hasSgoSession: Boolean,
   onConnectSgo: () -> Unit,
   modifier: Modifier = Modifier,
@@ -89,12 +103,12 @@ private fun DemoDataCard(
         )
         Column(modifier = Modifier.weight(1f)) {
           Text(
-            stringResource(if (hasSgoSession) R.string.auth_connected_title else R.string.demo_title),
+            stringResource(if (hasSgoSession) R.string.auth_connected_title else R.string.auth_required_title),
             style = MaterialTheme.typography.titleMedium,
           )
           Text(
             stringResource(
-              if (hasSgoSession) R.string.auth_connected_demo_description else R.string.demo_description,
+              if (hasSgoSession) R.string.auth_connected_description else R.string.auth_required_description,
             ),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -106,25 +120,6 @@ private fun DemoDataCard(
           stringResource(if (hasSgoSession) R.string.auth_login_again else R.string.auth_login_button),
         )
       }
-    }
-  }
-}
-
-@Composable
-private fun LessonTimerCard(modifier: Modifier = Modifier) {
-  Card(modifier = modifier.fillMaxWidth()) {
-    Column(modifier = Modifier.padding(Spacing.medium)) {
-      Text(
-        text = stringResource(R.string.timer_next_lesson),
-        style = MaterialTheme.typography.labelLarge,
-        color = MaterialTheme.colorScheme.primary,
-      )
-      Text(text = stringResource(R.string.timer_demo_value), style = MaterialTheme.typography.displaySmall)
-      Text(
-        text = stringResource(R.string.timer_demo_hint),
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-      )
     }
   }
 }

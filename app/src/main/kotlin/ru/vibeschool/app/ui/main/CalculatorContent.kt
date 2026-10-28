@@ -17,6 +17,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +55,13 @@ fun CalculatorContent(
       )
     }
     item(key = "content") {
-      Card(modifier = Modifier.fillMaxWidth()) {
+      if (snapshot.subjects.isEmpty()) {
+        EmptyStateCard(
+          icon = Icons.Outlined.Calculate,
+          title = stringResource(R.string.calculator_empty_title),
+          description = stringResource(R.string.calculator_empty_description),
+        )
+      } else Card(modifier = Modifier.fillMaxWidth()) {
         Column(
           modifier = Modifier.padding(Spacing.medium),
           verticalArrangement = Arrangement.spacedBy(Spacing.medium),
